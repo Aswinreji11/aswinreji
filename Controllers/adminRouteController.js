@@ -30,11 +30,18 @@ const admin_loginPost = async (req, res) => {
 
     try {
 
-        const userdata = await collection.findOne({ name: req.body.name }, {})
+        const data = {
+
+            name : req.body.name,
+
+            email: req.body.email,
+        }
+
+        const userdata = await collection.findOne({ name: data.name }, {})
 
         console.log(userdata)
 
-        const hashPassword = await collection.findOne({ name: req.body.name }, { _id: 0, password: 1 })
+        const hashPassword = await collection.findOne({ name: data.name }, { _id: 0, password: 1 })
 
 
         if (userdata === null || hashPassword === null || userdata.isAdmin === false) {
