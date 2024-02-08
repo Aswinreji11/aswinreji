@@ -1,0 +1,51 @@
+<html lang="en" data-darkreader-mode="dynamic" data-darkreader-scheme="dark">
+
+<style>
+    form{
+
+        text-align: center;
+        border: 4px solid black ;
+        height: 600px;
+        width: 300px;
+    }
+    #form{
+        padding-left: 14rem;
+    }
+</style>
+
+<div id="form">
+<form action="/admin/admin-addUser" method="post">
+
+    <link rel="stylesheet" href="/login&signup.css">
+
+
+    <h2>Add User</h2>
+
+    <div class="form-group">
+        <div class="input-group">
+            <input type="text" class="form-control" name="name" placeholder="Username" required="required">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <input type="email" class="form-control" pattern="/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/"
+                name="email" placeholder="email" required="required">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div id="message">
+            </div>
+            <input type="password" id="psw" class="form-control" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                name="password" placeholder="Password" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-lg">Add User</button>
+    </div>
+
+
+</form>
+</div>
+
+</html>

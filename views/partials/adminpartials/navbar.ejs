@@ -1,0 +1,22 @@
+<nav class="navbar  navbar-light bg-light justify-content-around">
+  <% name=adminName.toUpperCase() %>
+    <a class="navbar-brand" href="">WELCOME ADMIN <span id="admin">
+        <%= name %>
+      </span> </a>
+
+    <h1 id="adminName"></h1>
+
+    <button class="btn btn-facebook"><a href="/admin/admin-addUser">
+        Add User
+      </a></button>
+    <form action="/admin/users" method="post">
+      <input type="text" name="search" id=""><button class="btn btn-facebook" type="submit">
+        SEARCH</button>
+    </form>
+
+
+    <button type="submit" class="btn" id="logoutbtn"><a style="text-decoration: none;" href="/admin/logout"
+        class="logoutbtn">Logout</a></button>
+
+    </div>
+</nav>

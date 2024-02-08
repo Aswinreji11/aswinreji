@@ -1,0 +1,36 @@
+.logoutbtn {
+    text-decoration: none;
+    border-radius: 2rem;
+    color: black;
+    font-family: 'Courier New', monospace;
+    font-weight: bolder;
+}
+
+#logout {
+
+    justify-content: center;
+    font-weight: bolder;
+    border-radius: 2rem;
+    width: 6rem;
+    background-color: rgb(198, 186, 172);
+    color: rgb(35, 32, 32);
+}
+
+#welcome {
+    text-shadow: 2rem;
+    font-weight: bolder;
+    font-size: 3rem;
+    font-family: 'Courier New', monospace;
+    color: #000;
+}
+
+.porscheSize{
+    height: auto;
+    width: 35rem;
+    padding: 2rem;
+}
+.row{
+    
+    justify-content: space-around;
+}
+

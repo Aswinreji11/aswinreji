@@ -1,0 +1,74 @@
+<html lang="en" data-darkreader-mode="dynamic" data-darkreader-scheme="dark">
+
+<head>
+    <title>Porsche </title>
+</head>
+<link rel="stylesheet" href="/login&signup.css">
+<%- include('./partials/userpartials/header.ejs') %>
+
+    <body class="mainbody">
+
+        <div class="loginandsignup">
+            <form action="/signup" method="post">
+
+                <h2>Sign Up</h2>
+                <p>Please fill in this form to create an account!</p>
+                <hr>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="name" placeholder="Username" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="email" class="form-control"
+                            pattern="/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/" name="email"
+                            placeholder="email" required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div id="message">
+
+                            <h6 style="color: #fff;font-size: small;">Minimum eight characters, at least one letter and
+                                one number</h6>
+
+                        </div>
+                        <input type="password" id="psw" class="form-control"
+                            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" name="password" placeholder="Password"
+                            required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                </div>
+                <div class="text-center">Already have an account? <a href="/login">Login here</a></div>
+            </form>
+
+            <% if(msg){ %>
+                <span class="text-danger" style="font-size: 12px;font-weight: bold;" id="userexist">
+                    <%= msg %>
+                </span>
+                <% } %>
+        </div>
+
+
+        <script>
+
+            const pswd = document.getElementById('psw')
+
+            pswd.onfocus = function () {
+
+                document.getElementById("message").style.display = "block";
+
+            }
+
+            pswd.onblur = function () {
+
+                document.getElementById("message").style.display = "none";
+
+            }
+
+        </script>
+
+        <%- include('./partials/userpartials/signuperrorScript.ejs') %>

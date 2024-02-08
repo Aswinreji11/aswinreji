@@ -1,0 +1,71 @@
+<!DOCTYPE html dark-scheme>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="/home.css">
+</head>
+
+<body>
+  <nav class="navbar bg-white container-fluid">
+    <div class="container-fluid">
+
+      <!-- porsche logo path -->
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4500 300" style="width: 20rem;height:1rem">
+        <title>Porsche</title>
+        <path
+          d="M502 221c48.1 0 74-25.9 74-74V74c0-48.1-25.9-74-74-74H0v300h68v-79h434zm6-143v65c0 7.8-4.2 12-12 12H68V66h428c7.8 0 12 4.2 12 12zm228 222c-48.1 0-74-25.9-74-74V74c0-48.1 25.9-74 74-74h417c48.1 0 74 25.9 74 74v152c0 48.1-25.9 74-74 74H736zm411-66c7.8 0 12-4.2 12-12V78c0-7.8-4.2-12-12-12H742c-7.8 0-12 4.2-12 12v144c0 7.8 4.2 12 12 12h405zm675-36c39.844 16.757 67.853 56.1 68 102h-68c0-54-25-79-79-79h-361v79h-68V0h502c48.1 0 74 25.9 74 74v50.14c0 46.06-23.75 71.76-68 73.86zm-12-43c7.8 0 12-4.2 12-12V78c0-7.8-4.2-12-12-12h-428v89h428zm162-81c0-48.1 25.9-74 74-74h492v56h-486c-7.8 0-12 4.2-12 12v42c0 7.8 4.2 12 12 12h422c48.1 0 74 25.9 74 74v30c0 48.1-25.9 74-74 74h-492v-56h486c7.8 0 12-4.2 12-12v-42c0-7.8-4.2-12-12-12h-422c-48.1 0-74-25.9-74-74V74zm661 0c0-48.1 25.9-74 74-74h480v66h-474c-7.8 0-12 4.2-12 12v144c0 7.8 4.2 12 12 12h474v66h-480c-48.1 0-74-25.9-74-74V74zM3817 0v300h-68V183h-407v117h-68V0h68v117h407V0h68zm156 56v66h527v56h-527v66h527v56h-595V0h595v56h-527z">
+        </path>
+      </svg>
+      <!-- To change name to uppercase -->
+
+     
+
+        <a class="navbar-brand" id="welcome">Welcome <%= usernameHome.toUpperCase() %> </a>
+
+        <span id="time"></span>
+
+        <!-- Log out button -->
+
+        <button class="navbar" id="logout" type="submit">
+          <a class="logoutbtn" style="text-decoration: none;" href="/logout">LOG OUT</a>
+        </button>
+    </div>
+    </div>
+
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <img src="/images/Screenshot 2024-02-01 102919.png" class="porscheSize" alt="">
+      </div>
+      <div class="col-sm">
+       <img src="/images/Screenshot 2024-02-01 102841.png" class="porscheSize" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <img src="/images/Screenshot 2024-02-01 103245.png" class="porscheSize" style="border-radius: 2rem;" alt="">
+      </div>
+      <div class="col-6 sm-4 m-3 ">
+       <img src="/images/Screenshot 2024-02-01 103348.png" class="porscheSize" alt="">
+      </div>
+    </div>
+  </div>
+
+  
+</body>
+
+<%- include("./partials/adminpartials/footer.ejs") %>
+
+
+</html>
