@@ -219,16 +219,25 @@ const admin_deleteUser = async (req, res) => {
 
 const admin_getEditUser = async (req, res) => {
 
-    const name = req.query.name
+    if(req.session.isAuth){
 
-    req.session.userEditOrginalName = name
+        const name = req.query.name
+    
+        req.session.userEditOrginalName = name
+    
+        const userdata = await collection.findOne({ name: name }, { _id: 0 })
+    
+        console.log(userdata)
+    
+        res.render('userEdit', { user: userdata })
 
-    const userdata = await collection.findOne({ name: name }, { _id: 0 })
+    }else {
 
-    console.log(userdata)
+        res.redirect('/admin')
 
-    res.render('userEdit', { user: userdata })
+    }
 
+    
 
 }
 
@@ -272,6 +281,81 @@ const admin_postEditUser = async (req, res) => {
 
 
 
+const admin_getAddUser = (req, res) => {
+    
+    if (req.session.isAuth) {
+        
+        res.render('adduser')
+        
+    } else {
+        
+        
+        res.redirect('/admin')
+    }
+    
+}
+
+
+const admin_postAddUser = async (req, res) => {
+    
+    try {
+        if(req.session.isAuth){
+
+            const name = req.body.name
+            
+            console.log(name, 'hai')
+            
+            const trimmedName = name.trim()
+            
+            console.log(trimmedName, 'hello')
+            
+            const userAlready = await collection.findOne({ name: trimmedName }, { _id: 0, name: 1 })
+            
+            console.log(userAlready)
+            
+            if (userAlready === null) {
+                
+                const hashPassword = await bcrypt.hash(req.body.password, 10)
+                
+                const data = {
+        
+                    name: trimmedName,
+                    
+                    password: hashPassword,
+                    
+                    email: req.body.email
+                    
+                }
+                console.log('recieved')
+                
+                await collection.insertMany([data])
+                
+                res.redirect('/admin/users')
+                
+            } else if (userAlready !== null) {
+                
+                if (trimmedName === userAlready.name) {
+                    
+                    req.session.error = 'username already exist please try another username'
+                    
+                    res.redirect('/admin')
+                }
+            }else {
+
+                res.redirect('/admin')
+
+            }
+        }
+
+    } catch (error) {
+
+        console.log(error.me)
+        
+    }
+   
+}
+
+
 const admin_logout = (req, res) => {
 
     req.session.destroy()
@@ -283,78 +367,17 @@ const admin_logout = (req, res) => {
 }
 
 
-const admin_getAddUser = (req, res) => {
-
-    if (req.session.isAuth) {
-
-        res.render('adduser')
-
-    } else {
-
-
-        res.redirect('/admin')
-    }
-
-}
-
-
-const admin_postAddUser = async (req, res) => {
-
-
-    const name = req.body.name
-
-    console.log(name, 'hai')
-
-    const trimmedName = name.trim()
-
-    console.log(trimmedName, 'hello')
-
-    const userAlready = await collection.findOne({ name: trimmedName }, { _id: 0, name: 1 })
-
-    console.log(userAlready)
-
-    if (userAlready === null) {
-
-        const hashPassword = await bcrypt.hash(req.body.password, 10)
-
-        const data = {
-
-            name: trimmedName,
-
-            password: hashPassword,
-
-            email: req.body.email
-
-        }
-        console.log('recieved')
-
-        await collection.insertMany([data])
-
-        res.redirect('/admin/users')
-
-    } else if (userAlready !== null) {
-
-        if (trimmedName === userAlready.name) {
-
-            req.session.error = 'username already exist please try another username'
-
-            res.redirect('/admin')
-        }
-    }
-}
-
-
 
 //SECTION -  ===============================================================================              module exporting               ================================================================
 
 
 module.exports = {
-
+    
     admin_loginGet,
     admin_loginPost,
     admin_userPage,
     admin_postUserPageSearch,
-    admin_deleteUser,
+    admin_deleteUser, 
     admin_getEditUser,
     admin_postEditUser,
     admin_logout,
