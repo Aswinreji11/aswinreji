@@ -31,6 +31,10 @@ app.use(session({
     saveUninitialized:false,
 }))
 
+
+app.get('/test',(req,res)=>{
+    res.render('index')
+})
  
 //user router
 app.use('/',userRouter)
