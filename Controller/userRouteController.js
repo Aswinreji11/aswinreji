@@ -1,6 +1,6 @@
 const { render } = require('ejs');
 
-const collection = require('../src/mongodb');
+const collection = require('../model/mongodb');
 
 const bcrypt = require('bcrypt')
 

@@ -1,8 +1,8 @@
 const express = require('express');
 const session = require('express-session');
 const nocache = require('nocache');
-const userRouter = require('./model/userRouter')
-const adminRouter = require('./model/adminRoutes');
+const userRouter = require('./route/userRouter')
+const adminRouter = require('./route/adminRoutes');
 //instance of express framework
 const app = express();
 

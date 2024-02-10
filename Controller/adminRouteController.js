@@ -1,5 +1,5 @@
 
-const collection = require('../src/mongodb')
+const collection = require('../model/mongodb')
 
 const bcrypt = require('bcrypt')
 
@@ -135,7 +135,7 @@ const admin_postUserPageSearch = async (req, res) => {
 
         console.log('===========   username   =======', userName)
 
-        const userSearchData = await collection.find({ name:/UserName/ })
+        const userSearchData = await collection.find({ name: { $regex: new RegExp(`${userName}`, 'i') }, isAdmin: 0 })
 
         console.log(userSearchData[0])
 
@@ -151,7 +151,7 @@ const admin_postUserPageSearch = async (req, res) => {
 
 
 
-            res.render('adminHome', { user: userSearchData, adminName: adminName, adminChange: '', userDeleted: userDeleted  })
+            res.render('adminHome', { user: userSearchData, adminName: adminName, adminChange: '', userDeleted: userDeleted })
 
         } else {
 
