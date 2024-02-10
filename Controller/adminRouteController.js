@@ -32,19 +32,23 @@ const admin_loginPost = async (req, res) => {
 
         const data = {
 
-            name : req.body.name,
+            name: req.body.name,
 
             email: req.body.email,
         }
 
-        const userdata = await collection.findOne({ name: data.name }, {})
+        const userData = await collection.findOne({ name: data.name }, {})
 
-        console.log(userdata)
+        console.log(userData)
 
         const hashPassword = await collection.findOne({ name: data.name }, { _id: 0, password: 1 })
 
+        console.log(userData.password)
 
-        if (userdata === null || hashPassword === null || userdata.isAdmin === false) {
+        console.log(hashPassword)
+
+
+        if (userData === null || hashPassword === null || userData.isAdmin === false) {
 
             req.session.adminError = 'Invalid admin or password'
 
@@ -53,7 +57,7 @@ const admin_loginPost = async (req, res) => {
 
 
 
-        else if (userdata.name !== null && hashPassword !== null && userdata.isAdmin === true) {
+        else if (userData.name !== null && hashPassword !== null && userData.isAdmin === true) {
 
             const comparedHashPassword = await bcrypt.compare(req.body.password, hashPassword.password)
 
@@ -69,7 +73,7 @@ const admin_loginPost = async (req, res) => {
 
             req.session.adminname = data.name
 
-            if (userdata.name === data.name && comparedHashPassword) {
+            if (userData.name === data.name && comparedHashPassword) {
 
                 req.session.isAuth = true
 
@@ -92,6 +96,34 @@ const admin_loginPost = async (req, res) => {
 
 
 
+
+
+const admin_userPage = async (req, res) => {
+
+    if (req.session.isAuth) {
+
+        const userData = await collection.find({ isAdmin: false }, { _id: 0 })
+
+
+
+        const adminName = req.session.adminname
+
+        const userDeleted = req.session.userDeleted
+
+        const userSearchData = req.body.userSearchData
+
+        res.render('adminHome', { user: userData, adminName: adminName, userDeleted: userDeleted, userSearchData: userSearchData })
+
+    }
+    else {
+
+        req.session.adminLoginError = 'Try to signing'
+
+        res.redirect('/admin')
+    }
+}
+
+
 const admin_postUserPageSearch = async (req, res) => {
 
 
@@ -103,17 +135,27 @@ const admin_postUserPageSearch = async (req, res) => {
 
         console.log('===========   username   =======', userName)
 
-        const userSearchData = await collection.find({ name: userName })
+        const userSearchData = await collection.find({ name:/UserName/ })
 
-        console.log(userSearchData[0].name)
+        console.log(userSearchData[0])
 
-        if(userSearchData !== null){
-            
-            console.log(userSearchData[0].name)
+        if (userSearchData !== null || userSearchData !== undefined) {
+
+            console.log(userSearchData[0])
 
             req.session.userSearchData = userSearchData
 
-        }else {
+            const adminName = req.session.adminname
+
+            const userDeleted = req.session.userDeleted
+
+
+
+            res.render('adminHome', { user: userSearchData, adminName: adminName, adminChange: '', userDeleted: userDeleted  })
+
+        } else {
+
+            console.log('get into else case')
 
             req.session.userNotFound = 'User not found kindly check the spelling'
 
@@ -133,36 +175,6 @@ const admin_postUserPageSearch = async (req, res) => {
 }
 
 
-
-const admin_userPage = async (req, res) => {
-
-    if (req.session.isAuth) {
-
-        const userdata = await collection.find({ isAdmin: false }, { _id: 0 })
-
-
-
-        const adminName = req.session.adminname
-
-        const adminError = req.session.adminDelete
-
-        const adminSuccess = req.session.adminSuccess
-
-        const userDeleted = req.session.userDeleted
-
-        const userSearchData = req.body.userSearchData
-
-        res.render('adminHome', { user: userdata , adminName: adminName, adminMsg: adminError, adminChange: adminSuccess, userDeleted: userDeleted,userSearchData:userSearchData })
-
-    }
-    else {
-
-        req.session.adminLoginError = 'Try to signing'
-
-        res.redirect('/admin')
-    }
-}
-
 const admin_deleteUser = async (req, res) => {
 
     if (req.session.isAuth) {
@@ -173,24 +185,11 @@ const admin_deleteUser = async (req, res) => {
 
             console.log(name)
 
-            const adminOrNot = await collection.findOne({ name: name })
+            await collection.deleteOne({ name: name })
 
-            if (adminOrNot.isAdmin !== true) {
+            req.session.userDeleted = `${name} deleted successfully`
 
-                await collection.deleteOne({ name: name })
-
-                req.session.userDeleted = `${name} deleted successfully`
-
-                res.redirect('/admin/users')
-
-
-            } else {
-
-                req.session.adminDelete = 'Cannot delete admin'
-
-                res.redirect('/admin/users')
-
-            }
+            res.redirect('/admin/users')
 
         } catch (error) {
 
@@ -219,25 +218,25 @@ const admin_deleteUser = async (req, res) => {
 
 const admin_getEditUser = async (req, res) => {
 
-    if(req.session.isAuth){
+    if (req.session.isAuth) {
 
         const name = req.query.name
-    
-        req.session.userEditOrginalName = name
-    
-        const userdata = await collection.findOne({ name: name }, { _id: 0 })
-    
-        console.log(userdata)
-    
-        res.render('userEdit', { user: userdata })
 
-    }else {
+        req.session.userEditOrginalName = name
+
+        const userData = await collection.findOne({ name: name }, { _id: 0 })
+
+        console.log(userData)
+
+        res.render('userEdit', { user: userData })
+
+    } else {
 
         res.redirect('/admin')
 
     }
 
-    
+
 
 }
 
@@ -255,9 +254,9 @@ const admin_postEditUser = async (req, res) => {
 
             console.log(OGName)
 
-            const userdata = await collection.updateOne({ name: OGName }, { $set: { name: req.body.name, email: req.body.email } })
+            const userData = await collection.updateOne({ name: OGName }, { $set: { name: req.body.name, email: req.body.email } })
 
-            console.log('===============', userdata)
+            console.log('===============', userData)
 
             res.redirect('/admin/users')
 
@@ -282,67 +281,69 @@ const admin_postEditUser = async (req, res) => {
 
 
 const admin_getAddUser = (req, res) => {
-    
+
     if (req.session.isAuth) {
-        
+
         res.render('adduser')
-        
+
     } else {
-        
-        
+
+
         res.redirect('/admin')
     }
-    
+
 }
 
 
 const admin_postAddUser = async (req, res) => {
-    
+
     try {
-        if(req.session.isAuth){
+        if (req.session.isAuth) {
 
             const name = req.body.name
-            
+
             console.log(name, 'hai')
-            
+
             const trimmedName = name.trim()
-            
+
             console.log(trimmedName, 'hello')
-            
+
             const userAlready = await collection.findOne({ name: trimmedName }, { _id: 0, name: 1 })
-            
+
             console.log(userAlready)
-            
+
             if (userAlready === null) {
-                
+
                 const hashPassword = await bcrypt.hash(req.body.password, 10)
-                
+
                 const data = {
-        
+
                     name: trimmedName,
-                    
+
                     password: hashPassword,
-                    
+
                     email: req.body.email
-                    
+
                 }
                 console.log('recieved')
-                
+
                 await collection.insertMany([data])
-                
+
                 res.redirect('/admin/users')
-                
+
             } else if (userAlready !== null) {
-                
+
                 if (trimmedName === userAlready.name) {
-                    
+
                     req.session.error = 'username already exist please try another username'
-                    
+
                     res.redirect('/admin')
                 }
-            }else {
+            } else {
 
                 res.redirect('/admin')
+
+
 
             }
         }
@@ -350,9 +351,9 @@ const admin_postAddUser = async (req, res) => {
     } catch (error) {
 
         console.log(error.me)
-        
+
     }
-   
+
 }
 
 
@@ -372,12 +373,12 @@ const admin_logout = (req, res) => {
 
 
 module.exports = {
-    
+
     admin_loginGet,
     admin_loginPost,
     admin_userPage,
     admin_postUserPageSearch,
-    admin_deleteUser, 
+    admin_deleteUser,
     admin_getEditUser,
     admin_postEditUser,
     admin_logout,

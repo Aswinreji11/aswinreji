@@ -1,5 +1,5 @@
 
-const adminRouteController = require('../Controllers/adminRouteController')
+const adminRouteController = require('../Controller/adminRouteController')
 
 const express = require('express');
 
