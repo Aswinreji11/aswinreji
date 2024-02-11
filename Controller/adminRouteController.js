@@ -124,7 +124,7 @@ const admin_userPage = async (req, res) => {
 }
 
 
-const  nadmin_postUserPageSearch = async (req, res) => {
+const  admin_postUserPageSearch = async (req, res) => {
 
 
     try {
