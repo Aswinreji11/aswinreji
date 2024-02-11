@@ -1,60 +1,63 @@
 <html lang="en" data-darkreader-mode="dynamic" data-darkreader-scheme="dark">
-	<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/style.css">
 
-	<body>
+<body>
 
-		<div class="container" id="container">
-			<div class="form-container sign-up">
-				<form action="/signup" method="post">
-					<h1>Create Account</h1>
-					<input type="text" name="name" placeholder="Name" required="required">
-					<input type="email" name="email" placeholder="Email" required="required">
-					<input type="password" name="password" placeholder="Password" required="required">
-					<button>SIGN UP</button>
-				</form>
-			</div>
-			<div class="form-container sign-in">
-				<form action="/login" method="post">
-					<h1>LOG IN</h1>
-					<input type="email" name="email" placeholder="Email" required="required">
-					<input type="password" name="password" placeholder="Password" required="required">
-					<button>LOG IN</button>
-					<br>
-					<br>
+	<div class="container" id="container">
+		<div class="form-container sign-up">
+			<form action="/signup" method="post">
+				<h1>Create Account</h1>
+				<input type="text" name="name" placeholder="Name" required="required">
+				<input type="email" name="email" placeholder="Email" required="required">
+				<input type="password" name="password" placeholder="Password" required="required">
+				<button>SIGN UP</button>
+			</form>
+		</div>
+		<div class="form-container sign-in">
+			<form action="/login" method="post">
+				<h1>LOG IN</h1>
+				<input type="email" name="email" placeholder="Email" required="required">
+				<input type="password" name="password" placeholder="Password" required="required">
+				<button>LOG IN</button>
+				<br>
+				<br>
 
-					<span id="loginErrorMsg"><%= loginerror || logoutMsg %></span>
-				</form>
-			</div>
+				<span id="loginErrorMsg">
+					<%= loginerror || logoutMsg %>
+				</span>
+			</form>
+		</div>
 
-		
-			<div class="toggle-container">
-				<div class="toggle">
-					<div class="toggle-panel toggle-left">
-						<h1>Welcome Back!</h1>
-						<p>Enter your personal details to use all of site features</p>
-						<button class="hidden" id="login">LOG IN</button>
-					</div>
-					<div class="toggle-panel toggle-right">
-						<h1>Hello, Friend!</h1>
-						<p>Register with your personal details to use all of site features</p>
-						<button class="hidden" id="register">SIGN UP</button>
-					</div>
+
+		<div class="toggle-container">
+			<div class="toggle">
+				<div class="toggle-panel toggle-left">
+					<h1>Welcome Back!</h1>
+					<p>Enter your personal details to use all of site features</p>
+					<button class="hidden" id="login">LOG IN</button>
+				</div>
+				<div class="toggle-panel toggle-right">
+					<h1>Hello, Friend!</h1>
+					<p>Register with your personal details to use all of site features</p>
+					<button class="hidden" id="register">SIGN UP</button>
 				</div>
 			</div>
 		</div>
-	
-		<script src="script.js"></script>
+	</div>
 
-		<script>
-			const err = document.getElementById('loginErrorMsg')
+	<script src="script.js"></script>
 
-			reload()
+	<script>
+		const err = document.getElementById('loginErrorMsg')
 
-			function reload(){
-				setTimeout(()=>{
-					err.innerHTML = ''
-				},3.500)
-			}
-		</script>
-	</body>
+		reload()
+
+		function reload() {
+			setTimeout(() => {
+				err.innerHTML = ''
+			}, 3.500)
+		}
+	</script>
+</body>
+
 </html>
