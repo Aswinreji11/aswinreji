@@ -30,6 +30,11 @@ const user_signupPost = async (req, res) => {
 
     const userEmail = req.body.email
 
+    const data = {
+        email: userEmail,
+
+    }
+
     const emailValidate = validator.validate(userEmail)
 
     console.log(emailValidate)
@@ -57,6 +62,8 @@ const user_signupPost = async (req, res) => {
             console.log('recieved')
 
             await collection.insertMany([data])
+
+            console
 
             res.redirect('/login')
 
@@ -93,16 +100,18 @@ const user_loginGet = (req, res) => {
 
     } else {
 
-        const message = req.session.loginError                                                                       //NOTE - login message error
+        const loginErrorMsg = req.session.loginErrorInvalidUser || req.session.loginError                                                                      //NOTE - login message error
 
         const logoutMsg =  req.session.logoutMsg
 
-        res.render('login', { loginerror: message , logoutMsg: logoutMsg})
+        console.log(loginErrorMsg)
+
+        res.render('login', { msg: loginErrorMsg , logoutMsg: logoutMsg})
 
     }
 }
 
-
+ 
 //!SECTION================================================           USER LOGIN POST METHOD           ====================================================================================================================================
 
 const user_loginPost = async (req, res) => {
@@ -127,7 +136,7 @@ const user_loginPost = async (req, res) => {
 
         if (dataBase === null || hashPassword === null) {
 
-            req.session.loginError = 'Invalid User Entry'                                                            //NOTE - user is not valid error
+            req.session.loginErrorInvalidUser = 'Invalid User Entry'                                                            //NOTE - user is not valid error
 
             res.redirect('/login')
 

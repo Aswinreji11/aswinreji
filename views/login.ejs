@@ -20,11 +20,7 @@
 				<input type="password" name="password" placeholder="Password" required="required">
 				<button>LOG IN</button>
 				<br>
-				<br>
-
-				<span id="loginErrorMsg">
-					<%= loginerror || logoutMsg %>
-				</span>
+				<h6 id="loginErrorMsg" style="color: red;"> <p><%= msg || logoutMsg %> </p></h6>
 			</form>
 		</div>
 
@@ -55,7 +51,7 @@
 		function reload() {
 			setTimeout(() => {
 				err.innerHTML = ''
-			}, 3.500)
+			}, 4000)
 		}
 	</script>
 </body>
