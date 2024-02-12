@@ -189,11 +189,6 @@ const user_loginPost = async (req, res) => {
 }
 
 
-
-
-
-
-
 const user_home1 = (req, res) => {
 
     if (req.session.isAuthLogin) {

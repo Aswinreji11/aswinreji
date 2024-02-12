@@ -49,7 +49,7 @@
                     </td>
 
                     <td><button type="submit" onclick="return confirm('Are you sure')" id="userbtn"><a style="text-decoration: none;"
-                        href="/admin/delete-user?name=<%= user[i].name %>">
+                        href="/admin/delete-user?email=<%= user[i].email %>">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                           class="bi bi-trash" viewBox="0 0 16 16">
                           <path
@@ -60,7 +60,7 @@
                       </a>
                       </button>
                     </td>
-                    <td><button id="userbtn"><a href="/admin/edit-user?name=<%= user[i].name %>">
+                    <td><button id="userbtn"><a href="/admin/edit-user?email=<%= user[i].email %>">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-pencil-square" viewBox="0 0 16 16">
                             <path

@@ -112,6 +112,7 @@ const admin_userPage = async (req, res) => {
 
         const userSearchData = req.body.userSearchData
 
+
         res.render('adminHome', { user: userData, adminName: adminName, userDeleted: userDeleted, userSearchData: userSearchData })
 
     }
@@ -124,7 +125,7 @@ const admin_userPage = async (req, res) => {
 }
 
 
-const  admin_postUserPageSearch = async (req, res) => {
+const admin_postUserPageSearch = async (req, res) => {
 
 
     try {
@@ -220,15 +221,19 @@ const admin_getEditUser = async (req, res) => {
 
     if (req.session.isAuth) {
 
-        const name = req.query.name
+        const email = req.query.email
 
-        req.session.userEditOrginalName = name
+        req.session.orginalEmail = email
 
-        const userData = await collection.findOne({ name: name }, { _id: 0 })
+        const userData = await collection.findOne({ email: email }, { _id: 0 })
+
+        req.session.editUserName = userData
 
         console.log(userData)
 
-        res.render('userEdit', { user: userData })
+        const duplicateEmail = req.session.duplicateEmail
+
+        res.render('userEdit', { user: userData, duplicateEmail: duplicateEmail })
 
     } else {
 
@@ -243,28 +248,54 @@ const admin_getEditUser = async (req, res) => {
 
 const admin_postEditUser = async (req, res) => {
 
-
-
     try {
 
         if (req.session.isAuth) {
 
+            const data = {
+                email : req.body.email
+            }
 
-            const OGName = req.session.userEditOrginalName
+            const orginalEmail = req.session.orginalEmail
 
-            console.log(OGName)
+            const duplicateEmail = await collection.findOne({ email: data.email })
 
-            const userData = await collection.updateOne({ name: OGName }, { $set: { name: req.body.name, email: req.body.email } })
+            console.log(duplicateEmail)
 
-            console.log('===============', userData)
+            if (duplicateEmail === null) {
 
-            res.redirect('/admin/users')
+                await collection.updateOne({ email: orginalEmail }, { $set: { name: req.body.name, email: req.body.email } })
 
-        } else {
+                res.redirect('/admin/users')
 
-            res.redirect('/admin')
+            }
+
+           const oldName = req.session.editUserName 
+            if (oldName.name !== req.body.name) {
+
+                await collection.updateOne({ email: orginalEmail }, { $set: { name: req.body.name} })
+
+                console.log('jello')
+                res.redirect('/admin/users')
+
+                console.log('jlllo')
+
+            }
+             if (duplicateEmail !== null) {
+
+                req.session.duplicateEmail = 'Email already kindly change it'
+
+                console.log('hlelo')
+
+                res.redirect('/admin/edit-user')
+
+            }
+
+
 
         }
+
+
     } catch (error) {
 
         console.log(error.message)

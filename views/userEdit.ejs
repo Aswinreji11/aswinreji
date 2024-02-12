@@ -16,7 +16,7 @@
             <form action="/admin/edit-user" method="post">
               <% if(user) { %>
                 <%= console.log('=== inside', user) %>
-      
+      <%= duplicateEmail %>
               <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" id="user" class="form-control" name="name" placeholder="Username"  value="<%= user.name%>"
