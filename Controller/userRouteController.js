@@ -1,6 +1,6 @@
 const { render } = require('ejs');
 
-const collection = require('../src/mongodb');
+const collection = require('../model/mongodb');
 
 const bcrypt = require('bcrypt')
 
@@ -28,23 +28,21 @@ const user_signupGet = (req, res) => {
 
 const user_signupPost = async (req, res) => {
 
-    const email = req.body.email
+    const userEmail = req.body.email
 
-    const emailValidate = validator.validate(email)
+    const data = {
+        email: userEmail,
+
+    }
+
+    const emailValidate = validator.validate(userEmail)
 
     console.log(emailValidate)
 
     if (emailValidate) {
 
-        const name = req.body.name
 
-        console.log(name, 'hai')
-
-        const trimmedName = name.trim()
-
-        console.log(trimmedName, 'hello')
-
-        const userAlready = await collection.findOne({ name: trimmedName }, { _id: 0, name: 1 })
+        const userAlready = await collection.findOne({ email: userEmail }, { _id: 0, email: 1 })
 
         console.log(userAlready)
 
@@ -54,24 +52,26 @@ const user_signupPost = async (req, res) => {
 
             const data = {
 
-                name: trimmedName,
+                name: req.body.name,
 
                 password: hashPassword,
 
-                email: req.body.email
+                email: userEmail
 
             }
             console.log('recieved')
 
             await collection.insertMany([data])
 
+            console
+
             res.redirect('/login')
 
         } else if (userAlready !== null) {
 
-            if (trimmedName === userAlready.name) {
+            if (data.email === userAlready.email) {
 
-                req.session.userExist = 'username already exist please try another username'
+                req.session.userExist = 'Email Id already exist please try another email id'
 
                 res.redirect('/signup')
             }
@@ -100,53 +100,54 @@ const user_loginGet = (req, res) => {
 
     } else {
 
-        const message = req.session.loginError                                                                       //NOTE - login message error
+        const loginErrorMsg = req.session.loginErrorInvalidUser || req.session.loginError                                                                      //NOTE - login message error
 
         const logoutMsg =  req.session.logoutMsg
 
-        res.render('login', { loginerror: message , logoutMsg: logoutMsg})
+        console.log(loginErrorMsg)
+
+        res.render('login', { msg: loginErrorMsg , logoutMsg: logoutMsg})
 
     }
 }
 
-
+ 
 //!SECTION================================================           USER LOGIN POST METHOD           ====================================================================================================================================
 
 const user_loginPost = async (req, res) => {
 
     try {
 
-        const name = req.body.name
 
-        const email = req.body.email
+        const userEmail = req.body.email
 
-        console.log(email)
+        console.log(userEmail)
 
-        const trimmedName = name.trim()
 
-        const hashPassword = await collection.findOne({ name: trimmedName }, { _id: 0, password: 1 })               //NOTE -  Finding hashed password in Database
+
+        const hashPassword = await collection.findOne({ email: userEmail }, { _id: 0, password: 1 })               //NOTE -  Finding hashed password in DataBase
 
         console.log(hashPassword)
 
-        const database = await collection.findOne({ name: trimmedName }, { _id: 0 })                                //NOTE - Finding name in Database
+        const dataBase = await collection.findOne({ email: userEmail }, { _id: 0 })                                //NOTE - Finding name in DataBase
 
 
-        console.log(database)
+        console.log(dataBase)
 
-        if (database === null || hashPassword === null) {
+        if (dataBase === null || hashPassword === null) {
 
-            req.session.loginError = 'Invalid User Entry'                                                            //NOTE - user is not valid error
+            req.session.loginErrorInvalidUser = 'Invalid User Entry'                                                            //NOTE - user is not valid error
 
             res.redirect('/login')
 
         }
         console.log("login entered")
 
-        console.log(trimmedName)
+        console.log(userEmail)
 
         console.log(hashPassword)
 
-        if (database !== null && hashPassword !== null) {
+        if (dataBase !== null && hashPassword !== null) {
 
             const comparedHashPassword = await bcrypt.compare(req.body.password, hashPassword.password)                     //NOTE - Comparing hashed password   
 
@@ -154,14 +155,14 @@ const user_loginPost = async (req, res) => {
 
             const data = {
 
-                name: trimmedName,
+                email: userEmail,
 
-                email: email
+                name:dataBase.name
 
             }
 
 
-            if (data.name === database.name && comparedHashPassword) {
+            if (data.email === dataBase.email && comparedHashPassword) {
 
                 req.session.usernameHome = data.name
 
@@ -188,18 +189,13 @@ const user_loginPost = async (req, res) => {
 }
 
 
-
-
-
-
-
 const user_home1 = (req, res) => {
 
     if (req.session.isAuthLogin) {
 
-        const uname = req.session.usernameHome
+        const userName = req.session.usernameHome
 
-        res.render('home', { usernameHome: uname })
+        res.render('home', { usernameHome: userName })
 
     } else {
 

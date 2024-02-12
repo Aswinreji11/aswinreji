@@ -1,6 +1,6 @@
 
 
-const userRouteController = require('../Controllers/userRouteController')
+const userRouteController = require('../Controller/userRouteController')
 
 const express = require('express')
 
@@ -15,7 +15,7 @@ router.post('/login',userRouteController.user_loginPost)
 router.get('/home',userRouteController.user_home1)
 
 router.get('/',userRouteController.user_home2)
-
+ 
 router.get('/logout',userRouteController.user_logout)
 
 router.get('/signup',userRouteController.user_signupGet)

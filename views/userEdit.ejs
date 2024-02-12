@@ -1,51 +1,48 @@
 
+  <html lang="en" data-darkreader-mode="dynamic" data-darkreader-scheme="dark">
 
-<style>
-  form{
-    text-align: center;
-
-    margin-top: 4rem;
-
-    height: auto;
-
-    padding: 4rem;
-
-  }
-</style>
-<html lang="en" data-darkreader-mode="dynamic" data-darkreader-scheme="dark">
-<link rel="stylesheet" href="/login&signup.css">
-
-<div class="sticky-div bg-white justify-content-center">
-
-  <div class="m-lg-auto">
-          <form action="/admin/edit-user" method="post">
-            <% if(user) { %>
-              <%= console.log('=== inside', user) %>
-    
-            <div class="form-group p-5">
-              <div class="input-group p-5">
-                <div class="input-group-prepend">
-                </div>
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h2>Edit User</h2>
+          </div>
+          <div class="card-body">
+            <form action="/admin/edit-user" method="post">
+              <% if(user) { %>
+                <%= console.log('=== inside', user) %>
+      <%= duplicateEmail %>
+              <div class="form-group">
+                <label for="name">Name</label>
                 <input type="text" id="user" class="form-control" name="name" placeholder="Username"  value="<%= user.name%>"
                   autocomplete="off" required="required">
               </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
+              <div class="form-group">
+                <label for="email">Email</label>
                 <input type="email" id="pass" class="form-control" name="email" placeholder="Password" value="<%= user.email%>"
-                  required="required">
+                required="required">  
               </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <div class="form">
-                  <button type="submit" class="btn btn-primary btn-lg">Edit User</a></button>
-                </div>
-                <%  }else{ %>
-                  <tr>
-                    <td colspan="3">No user</td>
-                  </tr>
-                  <% } %>
-          </form>
+              <button type="submit" class="btn btn-primary btn-lg">Edit User</button>
+              <%  }else{ %>
+                <tr>
+                  <td colspan="3">No user</td>
+                </tr>
+                <% } %>
+            </form>
+          </div>
         </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

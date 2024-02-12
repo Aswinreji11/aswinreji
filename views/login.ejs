@@ -1,63 +1,63 @@
 <html lang="en" data-darkreader-mode="dynamic" data-darkreader-scheme="dark">
-<link rel="stylesheet" href="/login&signup.css">
-<%- include('./partials/userpartials/header.ejs') %>
+<link rel="stylesheet" href="/style.css">
 
-	<body class="mainbody">
-		<!-- <section class="container"> -->
-		<div class="loginandsignup">
-			<form action="/login" method="post">
-				<h2>Log In</h2>
-				<p>Enjoy explore </p>
-				<hr>
+<body>
 
-				<div class="form-group">
-					<div class="input-group">
-						<div class="input-group-prepend">
-						</div>
-						<input type="text" id="user" class="form-control" name="name" placeholder="Username"
-							autocomplete="off" required="required">
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="input-group">
-						<input type="password" id="pass" class="form-control" name="password" placeholder="Password"
-							required="required">
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="input-group">
-						<div class="form">
-							<button type="submit" class="btn btn-primary btn-lg">Log In</a></button>
-							<br>
-							<br>
-						</div>
-			</form><br>
-			<div class="text-center">Need an account? <a href="/signup">Sign Up</a></div>
+	<div class="container" id="container">
+		<div class="form-container sign-up">
+			<form action="/signup" method="post">
+				<h1>Create Account</h1>
+				<input type="text" name="name" placeholder="Name" required="required">
+				<input type="email" name="email" placeholder="Email" required="required">
+				<input type="password" name="password" placeholder="Password" required="required">
+				<button>SIGN UP</button>
+			</form>
 		</div>
-		<br>
-
-		<% if(loginerror){ %>
-			<span id="loginerr" class="text-danger" style="font-size: 12px;font-weight: bold;">
-				<%= loginerror %>
-			</span>
-			<% } %>
-
-
-				<!-- </section> -->
-
-				<script>
-
-					reload()
-					const errContainer = document.getElementById('loginerr');
-					function reload() {
-						setTimeout(() => {
-							errContainer.innerHTML = "";
-						}, 2000);
-					}
+		<div class="form-container sign-in">
+			<form action="/login" method="post">
+				<h1>LOG IN</h1>
+				<input type="email" name="email" placeholder="Email" required="required">
+				<input type="password" name="password" placeholder="Password" required="required">
+				<button>LOG IN</button>
+				<br>
+				<h6 id="loginErrorMsg" style="color: red;">
+					<p>
+						<%= msg || logoutMsg %>
+					</p>
+				</h6>
+			</form>
+		</div>
 
 
-				</script>
+		<div class="toggle-container">
+			<div class="toggle">
+				<div class="toggle-panel toggle-left">
+					<h1>Welcome Back!</h1>
+					<p>Enter your personal details to use all of site features</p>
+					<button class="hidden" id="login">LOG IN</button>
+				</div>
+				<div class="toggle-panel toggle-right">
+					<h1>Hello, Friend!</h1>
+					<p>Register with your personal details to use all of site features</p>
+					<button class="hidden" id="register">SIGN UP</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	</body>
+	<script src="script.js"></script>
+
+	<script>
+		const err = document.getElementById('loginErrorMsg')
+
+		reload()
+
+		function reload() {
+			setTimeout(() => {
+				err.innerHTML = ''
+			}, 4000)
+		}
+	</script>
+</body>
 
 </html>

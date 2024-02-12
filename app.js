@@ -1,8 +1,8 @@
 const express = require('express');
-const userRouter = require('./routes/userRouter')
-const nocache = require('nocache');
 const session = require('express-session');
-const adminRouter = require('./routes/adminRoutes');
+const nocache = require('nocache');
+const userRouter = require('./route/userRouter')
+const adminRouter = require('./route/adminRoutes');
 //instance of express framework
 const app = express();
 
@@ -31,6 +31,10 @@ app.use(session({
     saveUninitialized:false,
 }))
 
+
+app.get('/test',(req,res)=>{
+    res.render('index')
+})
  
 //user router
 app.use('/',userRouter)
