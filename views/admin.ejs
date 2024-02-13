@@ -46,15 +46,16 @@
                                     <form class="user" action="/admin" method="post">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp" name="name"
-                                                placeholder="Enter Username" required>
+                                                pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g" id="exampleInputEmail"
+                                                aria-describedby="emailHelp" name="email" placeholder="Enter Email"
+                                                required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                name="password" id="exampleInputPassword" placeholder="Password"
-                                                required>
+                                                 name="password"
+                                                id="password" placeholder="Password" required>
                                         </div>
-
+                                        <!-- pattern="(?=.*\d)(?=.*[a-z]).{8,}" -->
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
@@ -67,6 +68,10 @@
                                         </span>
 
                                         <% } %>
+                                        <div id="message">
+                                            <h6 class="text-danger">Must contain at least one number and lowercase letter, and at least 8 or
+                                                more</h6>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -78,29 +83,30 @@
         </div>
 
     </div>
-    <script>
+    <%- include('validation/validation.ejs') %>
+        <script>
 
-        reload()
+            reload()
 
-        const err = document.getElementById('loginerr')
+            const err = document.getElementById('loginerr')
 
-        function reload() {
-            setTimeout(() => {
-                err.innerHTML = ''
-            }, 3000)
-        }
+            function reload() {
+                setTimeout(() => {
+                    err.innerHTML = ''
+                }, 3000)
+            }
 
-    </script>
+        </script>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

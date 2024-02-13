@@ -18,9 +18,11 @@ const admin_loginGet = (req, res) => {
 
         const message = req.session.adminError
 
+        const name = req.session.adminName
+
         const adminLoginError = req.session.adminLoginError
 
-        res.render('admin', { errMsg: message, loginErrorAdmin: adminLoginError })
+        res.render('admin', { errMsg: message, loginErrorAdmin: adminLoginError, name: name })
 
     }
 
@@ -32,20 +34,21 @@ const admin_loginPost = async (req, res) => {
 
         const data = {
 
-            name: req.body.name,
-
             email: req.body.email,
-        }
 
-        const userData = await collection.findOne({ name: data.name }, {})
+            password: req.body.password
+        }
+        console.log(data, 'data is ')
+
+        const userData = await collection.findOne({ email: data.email }, {})
 
         console.log(userData)
 
-        const hashPassword = await collection.findOne({ name: data.name }, { _id: 0, password: 1 })
+        const hashPassword = await collection.findOne({ email: data.email }, { _id: 0, password: 1 })
 
-        console.log(userData.password)
+        console.log(userData, 'userdata')
 
-        console.log(hashPassword)
+        console.log(hashPassword, 'hashpassword')
 
 
         if (userData === null || hashPassword === null || userData.isAdmin === false) {
@@ -57,7 +60,7 @@ const admin_loginPost = async (req, res) => {
 
 
 
-        else if (userData.name !== null && hashPassword !== null && userData.isAdmin === true) {
+        else if (userData.email !== null && hashPassword !== null && userData.isAdmin === true) {
 
             const comparedHashPassword = await bcrypt.compare(req.body.password, hashPassword.password)
 
@@ -65,15 +68,17 @@ const admin_loginPost = async (req, res) => {
 
             const data = {
 
-                name: req.body.name,
+                email: req.body.email,
+
+                name: userData.name,
 
                 password: comparedHashPassword
 
             }
 
-            req.session.adminname = data.name
+            req.session.adminName = data.name
 
-            if (userData.name === data.name && comparedHashPassword) {
+            if (userData.email === data.email && comparedHashPassword) {
 
                 req.session.isAuth = true
 
@@ -106,7 +111,7 @@ const admin_userPage = async (req, res) => {
 
 
 
-        const adminName = req.session.adminname
+        const adminName = req.session.adminName
 
         const userDeleted = req.session.userDeleted
 
@@ -136,7 +141,7 @@ const admin_postUserPageSearch = async (req, res) => {
 
         console.log('===========   username   =======', userName)
 
-        const userSearchData = await collection.find({ name: { $regex: new RegExp(`${userName}`, 'i') }, isAdmin: 0 })
+        const userSearchData = await collection.find({ name: { $regex: new RegExp(`${userName}`, 'i') }, isAdmin: false })
 
         console.log(userSearchData[0])
 
@@ -146,7 +151,7 @@ const admin_postUserPageSearch = async (req, res) => {
 
             req.session.userSearchData = userSearchData
 
-            const adminName = req.session.adminname
+            const adminName = req.session.adminName
 
             const userDeleted = req.session.userDeleted
 
@@ -253,7 +258,7 @@ const admin_postEditUser = async (req, res) => {
         if (req.session.isAuth) {
 
             const data = {
-                email : req.body.email
+                email: req.body.email
             }
 
             const orginalEmail = req.session.orginalEmail
@@ -270,10 +275,10 @@ const admin_postEditUser = async (req, res) => {
 
             }
 
-           const oldName = req.session.editUserName 
+            const oldName = req.session.editUserName
             if (oldName.name !== req.body.name) {
 
-                await collection.updateOne({ email: orginalEmail }, { $set: { name: req.body.name} })
+                await collection.updateOne({ email: orginalEmail }, { $set: { name: req.body.name } })
 
                 console.log('jello')
                 res.redirect('/admin/users')
@@ -281,7 +286,7 @@ const admin_postEditUser = async (req, res) => {
                 console.log('jlllo')
 
             }
-             if (duplicateEmail !== null) {
+            if (duplicateEmail !== null) {
 
                 req.session.duplicateEmail = 'Email already kindly change it'
 
@@ -331,15 +336,17 @@ const admin_postAddUser = async (req, res) => {
     try {
         if (req.session.isAuth) {
 
-            const name = req.body.name
+            const data = {
 
-            console.log(name, 'hai')
+                email: req.body.email
 
-            const trimmedName = name.trim()
+            }
 
-            console.log(trimmedName, 'hello')
+            console.log(email, 'hai')
 
-            const userAlready = await collection.findOne({ name: trimmedName }, { _id: 0, name: 1 })
+
+
+            const userAlready = await collection.findOne({ email: data.email }, { _id: 0, email: 1 })
 
             console.log(userAlready)
 
@@ -349,7 +356,7 @@ const admin_postAddUser = async (req, res) => {
 
                 const data = {
 
-                    name: trimmedName,
+                    name: req.body.name,
 
                     password: hashPassword,
 
@@ -364,9 +371,9 @@ const admin_postAddUser = async (req, res) => {
 
             } else if (userAlready !== null) {
 
-                if (trimmedName === userAlready.name) {
+                if (data.email === userAlready.email) {
 
-                    req.session.error = 'username already exist please try another username'
+                    req.session.error = 'email id already exist please try another email id'
 
                     res.redirect('/admin')
                 }

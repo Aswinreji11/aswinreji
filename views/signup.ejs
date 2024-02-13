@@ -8,8 +8,10 @@
                 <h1>Create Account</h1>
                 <span>use your email for registeration</span>
                 <input type="text" name="name" placeholder="Name" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="email" name="email" pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g" placeholder="Email"
+                    required>
+                <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}"
+                    placeholder="Password" required>
                 <button>SIGN UP</button>
                 <br>
                 <h6 id="signupError" class="text-danger">
@@ -17,14 +19,25 @@
                         <%= msg %>
                     </p>
                 </h6>
+
+                <h6 id="signupError" class="text-danger">Must contain at least one number and lowercase letter, and at
+                    least 8 or
+                    more</h6>
             </form>
         </div>
         <div class="form-container sign-in">
             <form action="/login" method="post">
                 <h1>LOG IN</h1>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="email" name="email" pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g" placeholder="Email"
+                    required>
+                <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}"
+                    placeholder="Password" required>
                 <button>LOG IN</button>
+                <br>
+                <div id="message">
+                    <h6 class="text-danger">Must contain at least one number and lowercase letter, and at least 8 or
+                        more</h6>
+                </div>
             </form>
         </div>
         <div class="toggle-container">
@@ -43,18 +56,21 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-    <script>
-        reload()
+    <%- include('./validation/validation.ejs') %>
 
-        const signupError = document.getElementById('signupError')
+        <script src="script.js"></script>
+        <script>
+            reload()
 
-        function reload() {
-            setTimeout(() => {
-                signupError.innerHTML = ''
-            }, 4000)
-        }
-    </script>
+            const signupError = document.getElementById('signupError')
+
+            function reload() {
+                setTimeout(() => {
+                    signupError.innerHTML = ''
+                }, 4000)
+            }
+        </script>
+
 </body>
 
 </html>
