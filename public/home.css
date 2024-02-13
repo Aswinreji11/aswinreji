@@ -34,3 +34,10 @@
     justify-content: space-around;
 }
 
+#btn{
+    border-radius: 3rem;
+    background-color: #000;
+    color: #fff;
+    font-weight: bolder;
+    width: 12rem;
+}

@@ -39,28 +39,19 @@
 
   </nav>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-sm">
-        <img src="/images/Screenshot 2024-02-01 102919.png" class="porscheSize" alt="">
-      </div>
-      <div class="col-sm">
-        <img src="/images/Screenshot 2024-02-01 102841.png" class="porscheSize" alt="">
+  <%if(data) {for(const image of data){ %>
+
+    <% console.log(data.imageUrl) %>
+
+
+    <div class="container text-center">
+      <div class="row row-cols">
+        <div class="card p-2" ><img src="<%= image.imageUrl %>" style="max-width: 100%;" alt=""></div>
+        <h1 class="font-weight-bolder"> <%=image.name %></h1> <h3 class="p-l-3">PRICE <%= image.price %> <button id="btn" class="btn-dark btn-block">BUY NOW</button></h3>
       </div>
     </div>
-
-    <div class="row">
-      <div class="col">
-       view[0]
-        <img src="/images/Screenshot 2024-02-01 103245.png" class="porscheSize" style="border-radius: 2rem;" alt="">
-      </div>
-      <div class="col-6 sm-4 m-3 ">
-        <img src="/images/Screenshot 2024-02-01 103348.png" class="porscheSize" alt="">
-      </div>
-    </div>
-  </adiv>
-
-
+      <% }} %>
+      
 </body>
 
 <%- include("./partials/adminpartials/footer.ejs") %>

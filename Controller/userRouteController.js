@@ -8,6 +8,8 @@ const { compare, hash } = require('bcrypt');
 
 const validator = require('email-validator');
 
+const data = require('../cart/cart');
+
 
 
 
@@ -102,16 +104,16 @@ const user_loginGet = (req, res) => {
 
         const loginErrorMsg = req.session.loginErrorInvalidUser || req.session.loginError                                                                      //NOTE - login message error
 
-        const logoutMsg =  req.session.logoutMsg
+        const logoutMsg = req.session.logoutMsg
 
         console.log(loginErrorMsg)
 
-        res.render('login', { msg: loginErrorMsg , logoutMsg: logoutMsg})
+        res.render('login', { msg: loginErrorMsg, logoutMsg: logoutMsg })
 
     }
 }
 
- 
+
 //!SECTION================================================           USER LOGIN POST METHOD           ====================================================================================================================================
 
 const user_loginPost = async (req, res) => {
@@ -157,7 +159,7 @@ const user_loginPost = async (req, res) => {
 
                 email: userEmail,
 
-                name:dataBase.name
+                name: dataBase.name
 
             }
 
@@ -195,7 +197,8 @@ const user_home1 = (req, res) => {
 
         const userName = req.session.usernameHome
 
-        res.render('home', { usernameHome: userName })
+        
+        res.render('home', { usernameHome: userName, data: data })
 
     } else {
 
@@ -221,13 +224,13 @@ const user_home2 = (req, res) => {
 }
 
 const user_logout = (req, res) => {
-    
+
     req.session.destroy()
-    
+
     res.redirect('/login')
 
     res.status(200).send('logout succesully')
-    
+
 }
 
 //LINK - ===============================================================           ROUTER EXPORTING           ===============================================================//
