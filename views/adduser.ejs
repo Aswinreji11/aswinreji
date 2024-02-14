@@ -13,20 +13,24 @@
             <h2>Add User</h2>
           </div>
           <div class="card-body">
+            <span id="duplicate" class="text-danger">
+              <%= duplicateEmail %>
+            </span>
+
             <form action="/admin/admin-addUser" method="post">
               <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="username" required>
+                <input type="text" class="form-control" id="name" placeholder="Name" name="username" required>
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" name="email" pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g" placeholder="Email"
-                  required>
+                <input type="email" class="form-control" name="email" pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g"
+                  placeholder="Email" required>
               </div>
               <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}"
-                  placeholder="Password" required>
+                <input type="password" class="form-control" id="password" name="password"
+                  pattern="(?=.*\d)(?=.*[a-z]).{8,}" placeholder="Password" required>
               </div>
               <button type="submit" class="btn btn-primary btn-lg">Add User</button>
               <br>
@@ -41,7 +45,19 @@
     </div>
   </div>
 
+
   <%- include('validation/validation.ejs') %>
+    <script>
+
+      const errMsg = document.getElementById('duplicate')
+      reload()
+
+      function reload() {
+        setTimeout(()=>{
+          errMsg.innerHTML = ''
+        },4000)
+      }
+    </script>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

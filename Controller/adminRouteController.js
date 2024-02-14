@@ -265,7 +265,7 @@ const admin_postEditUser = async (req, res) => {
 
             const duplicateEmail = await collection.findOne({ email: data.email })
 
-            console.log(duplicateEmail)
+            console.log(duplicateEmail, 'duplicate email')
 
             if (duplicateEmail === null) {
 
@@ -280,10 +280,7 @@ const admin_postEditUser = async (req, res) => {
 
                 await collection.updateOne({ email: orginalEmail }, { $set: { name: req.body.name } })
 
-                console.log('jello')
                 res.redirect('/admin/users')
-
-                console.log('jlllo')
 
             }
             if (duplicateEmail !== null) {
@@ -320,7 +317,9 @@ const admin_getAddUser = (req, res) => {
 
     if (req.session.isAuth) {
 
-        res.render('adduser')
+        const emailError = req.session.emailError
+
+        res.render('adduser', { duplicateEmail: emailError })
 
     } else {
 
@@ -342,7 +341,7 @@ const admin_postAddUser = async (req, res) => {
 
             }
 
-            console.log(email, 'hai')
+            console.log('hai')
 
 
 
@@ -373,9 +372,9 @@ const admin_postAddUser = async (req, res) => {
 
                 if (data.email === userAlready.email) {
 
-                    req.session.error = 'email id already exist please try another email id'
+                    req.session.emailError = 'email id already exist please try another email id'
 
-                    res.redirect('/admin')
+                    res.redirect('/admin/admin-addUser')
                 }
             } else {
 
