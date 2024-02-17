@@ -17,25 +17,20 @@
               <% if(user) { %>
                 <%= console.log('===inside', user) %>
                   <span id="<span>" class="text-danger">
-                    <%= duplicateEmail %>
+                    <%= duplicateEmail || userDataError%>
                   </span>
                   <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" id="user" class="form-control" name="name" placeholder="Username"
-                      value="<%= user.name%>" autocomplete="off">
+                    <input type="text" id="user" class="form-control" name="name" placeholder="Username" 
+                      value="<%= user.name%>" autocomplete="off" required>
                   </div>
                   <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" class="form-control" name="email" placeholder="Email"
-                      value="<%= user.email%>">
+                      value="<%= user.email%>" required>
                   </div>
                   <button type="submit" class="btn btn-primary btn-lg">Edit User</button>
-                  <% }else{ %>
-                    <tr>
-                      <td colspan="3">No user</td>
-                    </tr>
-                    <% } %>
-                      <br>
+                  <% } %>
             </form>
           </div>
         </div>

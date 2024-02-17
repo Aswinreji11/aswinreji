@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 
 const validator = require('email-validator');
 
-const validation = require('../validation/validation')
+const {isValidName,isValidPassword,isvalidEmail} = require('../validation/validation')
 
 
 
@@ -43,7 +43,14 @@ const admin_loginPost = async (req, res) => {
 
 
 
-        // if(){
+        if(!isvalidEmail(data.email)){
+            return res.render('admin',{errMsg : 'Email is not valid'})
+        }
+
+        if(!isValidPassword(data.password)){
+            return res.render('admin',{errMsg:'password must contain one letter and one number atleast 8 characters'})
+        }
+        
 
         
         console.log(data, 'data is ')
@@ -98,10 +105,6 @@ const admin_loginPost = async (req, res) => {
             }
 
         }
-    // }else{
-    //     req.session.loginErrorAdmin = 'Wrong email id'
-    //     res.redirect('/admin')
-    // }
 
     } catch (err) {
 
@@ -254,7 +257,9 @@ const admin_getEditUser = async (req, res) => {
 
         const duplicateEmail = req.session.duplicateEmail
 
-        res.render('userEdit', { user: userData, duplicateEmail: duplicateEmail })
+        const userDataError = req.session.userDataError
+
+        res.render('userEdit', { user: userData, duplicateEmail: duplicateEmail,userDataError: userDataError })
 
     } else {
 
@@ -274,8 +279,29 @@ const admin_postEditUser = async (req, res) => {
         if (req.session.isAuth) {
 
             const data = {
-                email: req.body.email
+
+                email: req.body.email,
+                
+                name: req.body.name
+
             }
+
+            if(!isValidName(data.name)){
+
+                req.session.userDataError = 'invalid email id'
+
+                res.redirect('/admin/edit-user')
+
+            }
+
+            if(!isvalidEmail(data.email)){
+
+                req.session.userDataError = 'invalid email id'
+
+                return res.redirect('/admin/edit-user')
+
+            }
+
 
             const orginalEmail = req.session.orginalEmail
 
@@ -292,6 +318,7 @@ const admin_postEditUser = async (req, res) => {
             }
 
             const oldName = req.session.editUserName
+
             if (oldName.name !== req.body.name) {
 
                 await collection.updateOne({ email: orginalEmail }, { $set: { name: req.body.name } })
@@ -335,7 +362,9 @@ const admin_getAddUser = (req, res) => {
 
         const emailError = req.session.emailError
 
-        res.render('adduser', { duplicateEmail: emailError })
+        const userDataError = req.session.userDataError
+
+        res.render('addUser', { duplicateEmail: emailError,userDataError:userDataError })
 
     } else {
 
@@ -353,11 +382,34 @@ const admin_postAddUser = async (req, res) => {
 
             const data = {
 
-                email: req.body.email
+                email: req.body.email,
+                password: req.body.password,
+                name: req.body.name
 
             }
 
             console.log('hai')
+
+            if(!isValidName(data.name)){
+
+                req.session.userDataError = 'Invalid username'
+
+                res.redirect('/admin/admin-addUser')
+            }
+
+            if(!isvalidEmail(data.email)){
+
+                req.session.userDataError = 'email is invalid'
+
+                res.redirect('/admin/admin-addUser')
+            }
+
+            if(!isValidPassword(data.password)){
+
+                req.session.userDataError = 'password must contain one letter and one number atleast 8 characters'
+
+                res.redirect('/admin/admin-addUser')        
+            }
 
 
 
@@ -437,6 +489,5 @@ module.exports = {
     admin_logout,
     admin_getAddUser,
     admin_postAddUser,
-
 
 }

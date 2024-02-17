@@ -7,9 +7,9 @@
             <form action="/signup" method="post">
                 <h1>Create Account</h1>
                 <span>use your email for registeration</span>
-                <input type="text" name="name" placeholder="Name">
-                <input type="email" name="email" placeholder="Email">
-                <input type="password" id="password" name="password" placeholder="Password">
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
                 <button>SIGN UP</button>
                 <br>
                 <h6 id="signupError" class="text-danger">
@@ -22,8 +22,8 @@
         <div class="form-container sign-in">
             <form action="/login" method="post">
                 <h1>LOG IN</h1>
-                <input type="email" name="email" placeholder="Email">
-                <input type="password" id="password" name="password" placeholder="Password">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
                 <button>LOG IN</button>
             </form>
         </div>
