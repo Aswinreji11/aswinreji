@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt')
 
 const validator = require('email-validator');
 
+const validation = require('../validation/validation')
+
 
 
 
@@ -38,6 +40,12 @@ const admin_loginPost = async (req, res) => {
 
             password: req.body.password
         }
+
+
+
+        // if(){
+
+        
         console.log(data, 'data is ')
 
         const userData = await collection.findOne({ email: data.email }, {})
@@ -90,6 +98,10 @@ const admin_loginPost = async (req, res) => {
             }
 
         }
+    // }else{
+    //     req.session.loginErrorAdmin = 'Wrong email id'
+    //     res.redirect('/admin')
+    // }
 
     } catch (err) {
 
@@ -140,6 +152,10 @@ const admin_postUserPageSearch = async (req, res) => {
 
 
         console.log('===========   username   =======', userName)
+
+        const regex = new RegExp(`${userName}`,'i')
+
+        console.log(regex)
 
         const userSearchData = await collection.find({ name: { $regex: new RegExp(`${userName}`, 'i') }, isAdmin: false })
 

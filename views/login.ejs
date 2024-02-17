@@ -7,26 +7,17 @@
 		<div class="form-container sign-up">
 			<form action="/signup" method="post">
 				<h1>Create Account</h1>
-				<input type="text" name="name" placeholder="Name" required="required">
-				<input type="email" name="email" pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g" placeholder="Email"
-					required>
-				<input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}"
-					placeholder="Password" required>
+				<input type="text" name="name" placeholder="Name">
+				<input type="email" name="email" placeholder="Email">
+				<input type="password" id="password" name="password" placeholder="Password">
 				<button>SIGN UP</button>
-				<br>
-				<div id="message">
-                    <h6 class="text-danger">Must contain at least one number and lowercase letter, and at least 8 or
-                        more</h6>
-                </div>
 			</form>
 		</div>
 		<div class="form-container sign-in">
 			<form action="/login" method="post">
 				<h1>LOG IN</h1>
-				<input type="email" name="email" pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g" placeholder="Email"
-					required>
-				<input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z]).{8,}"
-					placeholder="Password" required>
+				<input type="email" name="email" placeholder="Email">
+				<input type="password" id="password" name="password" placeholder="Password">
 				<button>LOG IN</button>
 				<br>
 				<h6 id="loginErrorMsg" style="color: red;">
@@ -34,15 +25,10 @@
 						<%= msg || logoutMsg %>
 					</p>
 				</h6>
-				<br>
-				<div >
-                    <h6 id="loginErrorMsg" class="text-danger">Must contain at least one number and lowercase letter, and at least 8 or
-                        more</h6>
-                </div>
 			</form>
 		</div>
 
- 
+
 		<div class="toggle-container">
 			<div class="toggle">
 				<div class="toggle-panel toggle-left">
@@ -60,19 +46,17 @@
 	</div>
 
 	<script src="script.js"></script>
-	<%- include('validation/validation.ejs') %>
+	<script>
+		const err = document.getElementById('loginErrorMsg')
 
-		<script>
-			const err = document.getElementById('loginErrorMsg')
+		reload()
 
-			reload()
-
-			function reload() {
-				setTimeout(() => {
-					err.innerHTML = ''
-				}, 4000)
-			}
-		</script>
+		function reload() {
+			setTimeout(() => {
+				err.innerHTML = ''
+			}, 4000)
+		}
+	</script>
 </body>
 
 </html>

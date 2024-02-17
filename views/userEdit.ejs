@@ -16,47 +16,47 @@
             <form action="/admin/edit-user" method="post">
               <% if(user) { %>
                 <%= console.log('===inside', user) %>
-                <span id="<span>" class="text-danger"><%= duplicateEmail %> </span>
-                    <div class="form-group">
-                      <label for="name">Name</label>
-                      <input type="text" id="user" class="form-control" name="name" placeholder="Username"
-                        value="<%= user.name%>" autocomplete="off" required="required">
-                    </div>
-                    <div class="form-group">
-                      <label for="email">Email</label>
-                      <input type="email" id="email" class="form-control" name="email"
-                        pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g" placeholder="Email" value="<%= user.email%>"
-                        required="required">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-lg">Edit User</button>
-                    <% }else{ %>
-                      <tr>
-                        <td colspan="3">No user</td>
-                      </tr>
-                      <% } %>
-                        <br>
+                  <span id="<span>" class="text-danger">
+                    <%= duplicateEmail %>
+                  </span>
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="user" class="form-control" name="name" placeholder="Username"
+                      value="<%= user.name%>" autocomplete="off">
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" name="email" placeholder="Email"
+                      value="<%= user.email%>">
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-lg">Edit User</button>
+                  <% }else{ %>
+                    <tr>
+                      <td colspan="3">No user</td>
+                    </tr>
+                    <% } %>
+                      <br>
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <%- include('validation/validation.ejs') %>
   <script>
 
     const errMsg = document.getElementById('duplicate')
     reload()
 
     function reload() {
-      setTimeout(()=>{
+      setTimeout(() => {
         errMsg.innerHTML = ''
-      },4000)
+      }, 4000)
     }
   </script>
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

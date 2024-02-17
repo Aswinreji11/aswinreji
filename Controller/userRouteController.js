@@ -9,6 +9,7 @@ const { compare, hash } = require('bcrypt');
 const validator = require('email-validator');
 
 const data = require('../cart/cart');
+const { isvalidEmail } = require('../validation/validation');
 
 
 
@@ -35,7 +36,17 @@ const user_signupPost = async (req, res) => {
     const data = {
         email: userEmail,
 
+        name:req.body.name,
+
+        password: req.body.password,
+
     }
+ 
+    if(!isvalidEmail){
+        res.render('signup',{msg: 'kindly check the email format'})
+    }
+
+
 
     const emailValidate = validator.validate(userEmail)
 

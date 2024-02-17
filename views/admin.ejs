@@ -46,19 +46,16 @@
                                     <form class="user" action="/admin" method="post">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
-                                                pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g" id="exampleInputEmail"
-                                                aria-describedby="emailHelp" name="email" placeholder="Enter Email"
-                                                required>
+                                                id="exampleInputEmail" aria-describedby="emailHelp" name="email"
+                                                placeholder="Enter Email">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                 name="password"
-                                                id="password" placeholder="Password" required>
+                                                name="password" id="password" placeholder="Password">
                                         </div>
-                                        <!-- pattern="(?=.*\d)(?=.*[a-z]).{8,}" -->
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
-                                        </button>
+                                            </button>
                                     </form>
                                     <br>
                                     <% if(errMsg){ %>
@@ -68,10 +65,6 @@
                                         </span>
 
                                         <% } %>
-                                        <div id="message">
-                                            <h6 class="text-danger">Must contain at least one number and lowercase letter, and at least 8 or
-                                                more</h6>
-                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +76,6 @@
         </div>
 
     </div>
-    <%- include('validation/validation.ejs') %>
         <script>
 
             reload()
